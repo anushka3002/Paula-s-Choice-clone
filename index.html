@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="food_meals.css">
+</head>
+<body>
+    <div id="navbarmeals"></div>
+    <a id="foodcart.html"><div id="containerlatest"></div></a>
+</body>
+</html>
+<script type="module">
+    import navbar from "./navbar.js"
+    var navbarmeals=document.querySelector("#navbarmeals");
+    navbarmeals.innerHTML=navbar()
+
+    async function showMeal(){
+        try{
+            let data=await fetch(`https://themealdb.com/api/json/v1/1/categories.php`);
+            let res=await data.json();
+            let foodlatest=res.categories;
+            appendmeals(foodlatest)
+            console.log("res:",res);
+        }
+        catch(err){
+            console.log("err:",err)
+        }
+    }
+    showMeal()
+
+    const appendmeals=(categories)=>{
+        categories.forEach(({strCategoryThumb,strCategory,strCategoryDescription})=>{
+            var img=document.createElement("img");
+            img.style.width="100%";
+            img.style.height="200px";
+            img.src=strCategoryThumb;
+            img.style.borderBottom="1px solid #e3dadb"
+            img.style.margin="auto"
+            // img.setAttribute("class","img1")
+            img.style.backgroundColor="white"
+            img.style.transition= "transform .6s";
+            img.addEventListener('mouseover',function(){
+            img.style.transform="scale(1.1)";
+            img.style.borderRadius="8px";
+            })
+            img.addEventListener('mouseleave',function(){
+            img.style.transform="none";
+            img.style.backgroundColor="white"
+            img.style.borderRadius="0px";
+            })
+            var descrip=document.createElement("p")
+            descrip.textContent=strCategoryDescription
+            var naming=document.createElement("h3");
+            naming.textContent=strCategory;
+            naming.style.color="black";
+            console.log(naming)
+            var about=document.createElement("h4");
+            about.style.textAlign="center"
+            var div=document.createElement("div");
+            div.style.border="1px solid #e3dadb"
+            div.style.textAlign="center";
+            div.style.borderRadius="10px";
+            div.style.hover="transform: scale(1.5)";
+            let data_to_send={
+                strCategoryThumb,
+                strCategory,
+                strCategoryDescription
+            }
+            div.onclick=()=>{
+                showfooddata(data_to_send)
+            }
+            about.textContent="₹"+(Math.ceil(Math.random()*1000));
+            about.style.color="#c92f38"
+            div.append(img,naming,about)
+            document.querySelector("#containerlatest").append(div)
+        })
+    }
+    function showfooddata(res){
+        localStorage.setItem('foodcoming',JSON.stringify(res))
+        window.location.href="foodcart.html"
+    }
+
+
+
+
+
+
+
+
+//debouncing search food and get on screen
+    let foody_div=document.getElementById("foodie");
+    let foody_wait;
+    async function searchfoody(){
+        try{
+            let foody=document.getElementById('inputh').value
+            if(foody.length<=2){
+                return false;
+            }
+        let response=await fetch(`https://themealdb.com/api/json/v1/1/search.php?s=${foody}`);
+        var data= await response.json();
+        var foody_arr=data.meals;
+        appendfoody(foody_arr);
+        console.log("data:",data);
+        }
+        catch(err){
+            console.log("err:",err);
+        }
+    }
+    function appendfoody(foody){
+        foody_div.innerHTML=null;
+        litfood.innerHTML=null;
+        details.innerHTML=null;
+        if(foody===undefined){
+            return false;
+        }
+        foody.forEach(function(element){
+            var p=document.createElement('p');
+            p.innerText=element.strMeal;
+            let sfoody=element.strMeal;
+
+            //on clicking the food suggestion,showfoody function will be executed
+            p.onclick=function(event)                
+            {
+                var allfood=document.querySelector("#containerlatest")
+                allfood.style.marginTop="1200px"
+                event.preventDefault()
+                var favfood=document.createElement("img");
+                favfood.src=element.strMealThumb;
+                favfood.style.width="100%";
+                favfood.style.height="100%";
+                litfood.append(favfood);
+                foody_div.innerHTML=null;
+                var name=document.createElement("h3");
+                name.textContent=element.strMeal;
+                name.style.marginTop="10px"
+                var ing=document.createElement("h4");
+                ing.textContent="Ingrediets";
+                ing.style.color="rgb(197, 27, 27)";
+                var ing1=document.createElement("p");
+                ing1.style.marginRight="10px";
+                ing1.textContent=element.strIngredient1;
+                var ing2=document.createElement("p");
+                ing2.style.marginRight="10px";
+                ing2.textContent=element.strIngredient2;
+                var ing3=document.createElement("p");
+                ing3.style.marginRight="10px";
+                ing3.textContent=element.strIngredient3;
+                var ing4=document.createElement("p");
+                ing4.textContent=element.strIngredient4;
+                ing4.style.marginRight="10px";
+                var ing5=document.createElement("p");
+                ing5.textContent=element.strIngredient5;
+                ing5.style.marginRight="10px";
+                var ing6=document.createElement("p");
+                ing5.style.marginRight="10px";
+                ing6.textContent=element.strIngredient6;
+                ing6.style.marginRight="10px";
+                var ing7=document.createElement("p");
+                ing7.textContent=element.strIngredient7;
+                ing7.style.marginRight="10px";
+                var ing8=document.createElement("p");
+                ing8.textContent=element.strIngredient8;
+                ing8.style.marginRight="10px";
+                var inst=document.createElement("h4");
+                inst.style.color="rgb(197, 27, 27)";
+                inst.textContent="Instruction";
+                var inline=document.createElement("div");
+                inline.style.display="flex"
+                inline.style.textAlign="center"
+                inline.style.marginLeft="20%"
+                inline.append(ing1,ing2,ing3,ing4,ing5,ing6,ing7,ing8)
+                var instdes=document.createElement("p");
+                var iframe=document.createElement("iframe");
+                iframe.style.width="500px"
+                iframe.style.height="350px"
+                iframe.setAttribute("allowfullscreen","true")
+                let link = element.strYoutube.replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/")
+                iframe.src = link
+                instdes.textContent=element.strInstructions
+                        details.append(name,ing,inline,inst,instdes,iframe)
+            }
+            foody_div.append(p);
+        })
+    }
+    document.querySelector("#inputh").addEventListener("input",debounce)
+    function debounce(func,delay){
+        if(foody_wait){
+            clearInterval(foody_wait);
+            console.log("hello")
+        }
+        foody_wait=setTimeout(function(){
+        searchfoody();
+        },
+        1000);
+    }
+</script>
