@@ -792,8 +792,9 @@ pauladata()
              div3.style.display="flex";
              var img=document.createElement("img");
              img.src=elem.img;
-             img.style.width="100%";
-             img.style.height="100%";
+            //  img.style.width="100%";
+            //  img.style.height="80%";
+             img.setAttribute("class","nb")
              var name=document.createElement("p")
              name.textContent=elem.name;
              name.style.fontSize="13px";
