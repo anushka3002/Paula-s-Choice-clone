@@ -294,15 +294,52 @@ var Aindividual=JSON.parse(localStorage.getItem("paulasChoice"));
     }
 
     // for adding products to bag by sachin
- document.getElementById("Aaddtobagbox").addEventListener("click", ()=>{
-     let cartDataObj = JSON.parse(localStorage.getItem("paulasChoice"))
-     let currentProduct = cartDataObj[0]
-     let cartData = JSON.parse(localStorage.getItem("cartData")) || [] 
-     cartData.push(currentProduct)
-     document.getElementById("dcount").innerHTML = cartData.length
-     localStorage.setItem("cartData", JSON.stringify(cartData))
-     alert("product added to cart")
- })
+    // for adding products to bag by sachin
+    document.getElementById("Aaddtobagbox").addEventListener("click", ()=>{
+        //  let cartDataObj = JSON.parse(localStorage.getItem("paulasChoice"))
+        //  let currentProduct = cartDataObj[0]
+        //  let cartData = JSON.parse(localStorage.getItem("cartData")) || [] 
+        //  cartData.push(currentProduct)
+        //  document.getElementById("dcount").innerHTML = cartData.length
+        //  localStorage.setItem("cartData", JSON.stringify(cartData))
+        //  alert("product added to cart")
+        let userDetails = JSON.parse(localStorage.getItem("userInfo")) || null
+        let userId = userDetails.user._id
+        let productId = Aindividual[0]._id || null
+        console.log(productId)
+        console.log(userId)
+        addToCart()
+        async function addToCart() {
+            try{
+                    
+                    let cart = {userId:userId,
+                                products: [{productId:productId}]
+     
+                              };
+        
+                    let response = await fetch("http://localhost:2345/cart",{
+                        method:"POST",
+                        body:JSON.stringify(cart),
+                        headers:{
+                            'Content-Type': 'application/json'
+                        }
+                    })
+        
+                    let cartData = await response.json()
+                    console.log(cartData)
+                    let cartCount = 0
+                    for(let i=0; i<cartData.products.length; i++){
+                        cartCount+=cartData.products[i].quantity
+                    }
+                    document.getElementById("dcount").innerHTML = cartCount
+                    alert("added to cart")
+                } catch(err){
+                    console.log(err.message)
+                }
+
+        
+          }
+     })
 
  //ends here
 
