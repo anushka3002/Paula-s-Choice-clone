@@ -1,9 +1,9 @@
 let userDetails = JSON.parse(localStorage.getItem("userInfo")) || null
 let userId = userDetails.user._id
-
-let cartObj
 let subtotal
 let estTotal
+let cartObj
+
 
 async function getCart(){
     try{

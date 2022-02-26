@@ -306,6 +306,7 @@ var Aindividual=JSON.parse(localStorage.getItem("paulasChoice"));
         let userDetails = JSON.parse(localStorage.getItem("userInfo")) || null
         let userId = userDetails.user._id
         let productId = Aindividual[0]._id || null
+        let quantity = +(document.getElementById("Aquantityselect").value)
         console.log(productId)
         console.log(userId)
         addToCart()
@@ -313,7 +314,7 @@ var Aindividual=JSON.parse(localStorage.getItem("paulasChoice"));
             try{
                     
                     let cart = {userId:userId,
-                                products: [{productId:productId}]
+                                products: [{productId:productId, quantity:quantity}]
      
                               };
         
@@ -329,7 +330,7 @@ var Aindividual=JSON.parse(localStorage.getItem("paulasChoice"));
                     console.log(cartData)
                     let cartCount = 0
                     for(let i=0; i<cartData.products.length; i++){
-                        cartCount+=cartData.products[i].quantity
+                        cartCount+=  +(cartData.products[i].quantity)
                     }
                     document.getElementById("dcount").innerHTML = cartCount
                     alert("added to cart")
