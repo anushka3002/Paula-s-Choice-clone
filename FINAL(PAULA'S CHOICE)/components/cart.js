@@ -117,9 +117,8 @@ cartData.map(function(elem, index){
         // document.getElementById("price").innerText = `$${subtotal}`
         // document.getElementById("total").innerText = `$${estTotal}`
     })
-    remove.addEventListener("click", function(){
-        deleteFromCart()
-        async function deleteFromCart() {
+    remove.addEventListener("click",async function(){
+        
             try{
                     
                     let data = {userId:userId,
@@ -143,7 +142,7 @@ cartData.map(function(elem, index){
                 }
 
         
-          }
+          
         getCart()
     })
     // save.addEventListener("click", function(){
