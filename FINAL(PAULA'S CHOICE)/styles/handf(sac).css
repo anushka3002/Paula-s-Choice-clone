@@ -371,8 +371,7 @@
 .dac1>p:nth-child(2){
     margin-top: -10px;
 }
-.dac1 a{
-    text-decoration: none;
+.dac1 span{
     color: rgb(88,124,148);
     font-weight: 700;
 }

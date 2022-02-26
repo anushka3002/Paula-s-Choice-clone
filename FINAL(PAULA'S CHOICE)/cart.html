@@ -55,10 +55,9 @@
             <a href=""><i class="fas fa-user"></i></a>
             <div class="dbox dac">
               <div class="dac1">
-                <p>
-                  HELLO <strong>BEAUTIFUL</strong>/<strong>HANDSOME</strong>,
-                </p>
-                <p><a href="">Login</a> or <a href="">Sign Up</a></p>
+                <p>HELLO <Strong id="usrName">BEAUTIFUL/HANDSOME</strong>,</p>
+                  <p id="log-sign"><span id="dlog">Login</span> or <span id="dsign">Sign Up</span></p>
+                  <p id="logout">LogOut</p>
               </div>
               <div class="dac2">
                 <div>
@@ -511,3 +510,35 @@ You have 0 points
   </body>
 </html>
 <script src="./components/cart.js"></script>
+<script>
+   let ls = document.getElementById("log-sign")
+    let usrName = document.getElementById("usrName")
+    let lo = document.getElementById("logout")
+    lo.style.display = "none"
+    
+
+    nameApnd()
+    function nameApnd(){
+        let userData = JSON.parse(localStorage.getItem("userInfo")) || null;
+        if(userData){
+            let uName = document.getElementById("user");
+            uName.innerHTML = userData.user.firstName;
+            usrName.innerText = userData.user.firstName
+            ls.style.display = "none"
+            lo.style.display = "block"
+            lo.style.marginTop = "-10px"
+            lo.style.color = "rgb(88,124,148)"
+            alert("Logged In Successfull")
+            lo.onclick = ()=>{
+            logOut()
+            }
+        }
+        // lo.onclick = logOut()
+    }
+    function logOut(){
+        ls.style.display = "block"
+        lo.style.display = "none"
+        localStorage.setItem("userInfo",null)
+        window.location.reload()
+    }
+</script>
