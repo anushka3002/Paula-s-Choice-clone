@@ -1,13 +1,14 @@
 let userDetails = JSON.parse(localStorage.getItem("userInfo")) || null
 let userId = userDetails.user._id
-let cartObj
+let subtotal
+let estTotal
 
 
 async function getCart(){
     try{
         let response= await fetch(`http://localhost:2345/cart/${userId}`)
-         cartObj = await response.json();
-        cartData = cartObj.products
+        let cartObj = await response.json();
+       let cartData = cartObj.products
         console.log("cartdata:", cartData)
         displayCart(cartData)
     }
@@ -19,10 +20,9 @@ async function getCart(){
 getCart()
 
 
-let subtotal
-let estTotal
 
-displayCart(cartData)
+
+
 function displayCart(cartData){
     if(cartData.length===0){
         document.getElementById("main").style.display = "none"
@@ -42,7 +42,7 @@ function displayCart(cartData){
      subtotal = 0;
     for(let i=0; i< cartData.length; i++){
         let num = cartData[i].productId.price
-        subtotal = subtotal+num*(cartData[i].qty||1)
+        subtotal = subtotal+num*(cartData[i].quantity||1)
     }
      estTotal
     if(subtotal>=49){
@@ -81,7 +81,7 @@ cartData.map(function(elem, index){
     <option value="4">4</option>
     <option value="5">5</option>`
     let num = elem.productId.price
-    qty.value = elem.productId.qty || 1;
+    qty.value = +(elem.quantity) || 1;
     title.innerText  = elem.productId.about
     size.innerText = Math.ceil(Math.random()*7)+" "+"oz";
     size.style.marginBottom="40px"
@@ -95,27 +95,27 @@ cartData.map(function(elem, index){
     mainDiv.append(img, titleAndPrice, size, mixDiv)
     document.getElementById("container").append(hr,mainDiv)
     qty.addEventListener("change", function(){
-        elem.qty = qty.value
-        localStorage.setItem("cartData", JSON.stringify(cartData))
-        total.innerText = `$${num*qty.value}`
-        subtotal = 0
-        for(let i=0; i< cartData.length; i++){
-            let num = cartData[i].price.split("")
-            num.splice(0,1)
-            num = +num.join("")
-            subtotal = subtotal+num*(cartData[i].qty||1)
-        }
-        if(subtotal>=49){
-            estTotal = subtotal 
-            document.getElementById("shipping").innerText = `$0 (free shipping)`
-         }
-         else{
-             document.getElementById("shipping").innerText = `$5`
-          estTotal = subtotal+5
-         }
+        // elem.qty = qty.value
+        // localStorage.setItem("cartData", JSON.stringify(cartData))
+        // total.innerText = `$${num*qty.value}`
+        // subtotal = 0
+        // for(let i=0; i< cartData.length; i++){
+        //     let num = cartData[i].price.split("")
+        //     num.splice(0,1)
+        //     num = +num.join("")
+        //     subtotal = subtotal+num*(cartData[i].qty||1)
+        // }
+        // if(subtotal>=49){
+        //     estTotal = subtotal 
+        //     document.getElementById("shipping").innerText = `$0 (free shipping)`
+        //  }
+        //  else{
+        //      document.getElementById("shipping").innerText = `$5`
+        //   estTotal = subtotal+5
+        //  }
         
-        document.getElementById("price").innerText = `$${subtotal}`
-        document.getElementById("total").innerText = `$${estTotal}`
+        // document.getElementById("price").innerText = `$${subtotal}`
+        // document.getElementById("total").innerText = `$${estTotal}`
     })
     remove.addEventListener("click", function(){
         deleteFromCart()
@@ -146,17 +146,17 @@ cartData.map(function(elem, index){
           }
         getCart()
     })
-    save.addEventListener("click", function(){
-        let savedData =JSON.parse(localStorage.getItem("savedForLater")) || [];
-        console.log(savedData)
-        savedData.push(elem)
-        localStorage.setItem("savedForLater", JSON.stringify(savedData))
-        cartData.splice(index, 1)
-        localStorage.setItem("cartData", JSON.stringify(cartData))
-        displayCart(cartData)  
-        alert("product saved") 
-        displaySaved()     
-    })
+    // save.addEventListener("click", function(){
+    //     let savedData =JSON.parse(localStorage.getItem("savedForLater")) || [];
+    //     console.log(savedData)
+    //     savedData.push(elem)
+    //     localStorage.setItem("savedForLater", JSON.stringify(savedData))
+    //     cartData.splice(index, 1)
+    //     localStorage.setItem("cartData", JSON.stringify(cartData))
+    //     displayCart(cartData)  
+    //     alert("product saved") 
+    //     displaySaved()     
+    // })
 })
 }
 // document.getElementById("coupon-apply").addEventListener("click", ()=>{
