@@ -118,10 +118,34 @@ cartData.map(function(elem, index){
         document.getElementById("price").innerText = `$${subtotal}`
         document.getElementById("total").innerText = `$${estTotal}`
     })
-    remove.addEventListener("click", function(index){
-        cartData.splice(index, 1)
-        localStorage.setItem("cartData", JSON.stringify(cartData))
-        displayCart(cartData)
+    remove.addEventListener("click", function(){
+        deleteFromCart()
+        async function deleteFromCart() {
+            try{
+                    
+                    let data = {userId:userId,
+                                productId:elem.productId._id
+     
+                              };
+                              console.log(data)
+        
+                    let response = await fetch("http://localhost:2345/cart/delete",{
+                        method:"POST",
+                        body:JSON.stringify(data),
+                        headers:{
+                            'Content-Type': 'application/json'
+                        }
+                    })
+        
+
+
+                } catch(err){
+                    console.log(err.message)
+                }
+
+        
+          }
+        getCart()
     })
     save.addEventListener("click", function(){
         let savedData =JSON.parse(localStorage.getItem("savedForLater")) || [];
