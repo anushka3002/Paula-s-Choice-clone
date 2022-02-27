@@ -278,7 +278,7 @@ var Aindividual=JSON.parse(localStorage.getItem("paulasChoice"));
             div.append(div2,name,about,price,div3)
             div.setAttribute("class","givehoverstyle")
             div.onclick=function(){
-                window.location.href="product_individual.html"
+                // window.location.href="product_individual.html"
             }
             document.querySelector("#Are").append(div);
 
@@ -288,7 +288,7 @@ var Aindividual=JSON.parse(localStorage.getItem("paulasChoice"));
             arr.push(elem)
             div.addEventListener("click",senddata);
             function senddata(){
-                localStorage.setItem("paulasChoice",JSON.stringify(arr))
+                // localStorage.setItem("paulasChoice",JSON.stringify(arr))
             }
         })
     }
@@ -304,6 +304,9 @@ var Aindividual=JSON.parse(localStorage.getItem("paulasChoice"));
         //  localStorage.setItem("cartData", JSON.stringify(cartData))
         //  alert("product added to cart")
         let userDetails = JSON.parse(localStorage.getItem("userInfo")) || null
+        if(!userDetails){
+            alert("please log in to add items to cart")
+        }
         let userId = userDetails.user._id
         let productId = Aindividual[0]._id || null
         let quantity = +(document.getElementById("Aquantityselect").value)
